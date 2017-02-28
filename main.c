@@ -4,8 +4,8 @@
 #define size 80
 
 enum {nocomments, openedcomment, closedcomment};
-char openedbrackets[] = {'(','{','[','\0'};
-char closedbrackets[] = {')','}',']','\0'};
+char openedbrackets[] = {"({[\0"};
+char closedbrackets[] = {")}]\0"};
 
 int InArray(char* arr, char arg){
     int res = -1;
@@ -26,17 +26,17 @@ struct stack{
 };
 
 void push(struct stack* astack, char arg){
-    (*astack).data[stacksize] = arg;
+    astack->data[stacksize] = arg;
     stacksize++;
 }
 
 void pop(struct stack* astack){
-    (*astack).data[stacksize] = 0;
+    astack->data[stacksize] = 0;
     stacksize--;
 }
 
 char peek(struct stack* astack){
-    return ((*astack).data[stacksize - 1]);
+    return (astack->data[stacksize - 1]);
 }
 
 bool checkbrackets(char* astr){
@@ -73,15 +73,15 @@ bool checkescapesequence(char* astr){
     for (int i = 0; astr[i] != '\0'; ++i){
         if (astr[i] == '\\') {
             switch (astr[i + 1]) {
-                case 'a': break;
-                case 'b': break;
-                case 'f': break;
-                case 'n': break;
-                case 'r': break;
-                case 't': break;
-                case 'v': break;
-                case '\'': break;
-                case '"': break;
+                case 'a':;
+                case 'b':;
+                case 'f':;
+                case 'n':;
+                case 'r':;
+                case 't':;
+                case 'v':;
+                case '\'':;
+                case '"':;
                 case '?': break;
                 default:
                     return false;
