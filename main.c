@@ -19,24 +19,24 @@ int InArray(char* arr, char arg){
 }
 
 struct stack bracketstack;
-int stacksize = 0;
 
 struct stack{
     char data[size];
+    int stacksize;
 };
 
 void push(struct stack* astack, char arg){
-    astack->data[stacksize] = arg;
-    stacksize++;
+    astack->data[astack->stacksize] = arg;
+    astack->stacksize++;
 }
 
 void pop(struct stack* astack){
-    astack->data[stacksize] = 0;
-    stacksize--;
+    astack->data[astack->stacksize] = 0;
+    astack->stacksize--;
 }
 
 char peek(struct stack* astack){
-    return (astack->data[stacksize - 1]);
+    return (astack->data[astack->stacksize - 1]);
 }
 
 bool checkbrackets(char* astr){
