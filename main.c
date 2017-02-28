@@ -102,7 +102,7 @@ int main(){
         printf(res ? "" : "Error: line %d brackets disbalance \n",i);
 
         switch (checkcomments(s)){
-            case 1: commentscnt += 1; break;
+            case 1: commentscnt = 1; break;
             case 2: commentscnt -= 1; break;
             default: break;
         }
