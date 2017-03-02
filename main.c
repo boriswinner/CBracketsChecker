@@ -17,13 +17,12 @@ int InArray(char* arr, char arg){
     }
     return res;
 }
-
-struct stack bracketstack;
-
 struct stack{
     char data[size];
     int stacksize;
 };
+
+struct stack bracketstack;
 
 void push(struct stack* astack, char arg){
     astack->data[astack->stacksize] = arg;
@@ -92,15 +91,16 @@ bool checkescapesequence(char* astr){
 }
 
 int main(){
-    char* s = malloc(80*sizeof(char));
+    char* s = malloc(size*sizeof(char));
     FILE *f = fopen("input.txt","r");
     int commentscnt = 0;
 
-    for (int i  = 1; !feof(f); i++) {
-        fscanf(f, "%s", s);
+    for (int i  = 1; !feof(f); ++i) {
+        fgets(s,size,f);
         bool res = checkbrackets(s);
         printf(res ? "" : "Error: line %d brackets disbalance \n",i);
-
+        res = checkescapesequence(s);
+        printf(res ? "" : "Error: line %d unknown escape sequence \n",i);
         switch (checkcomments(s)){
             case 1: commentscnt = 1; break;
             case 2: commentscnt -= 1; break;
@@ -108,5 +108,6 @@ int main(){
         }
     }
     printf(commentscnt ? "Error: comments disbalance \n" : "");
+    fclose(f);
     return 0;
 }
