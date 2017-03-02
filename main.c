@@ -4,23 +4,16 @@
 #define size 80
 
 enum {nocomments, openedcomment, closedcomment};
-char openedbrackets[] = {"({[\0"};
-char closedbrackets[] = {")}]\0"};
+char openedbrackets[255] = {['(']=1,['{']=2,['[']=3};
+char closedbrackets[255] = {[')']=1,['}']=2,[']']=3};
 
 int InArray(char* arr, char arg){
-    int res = -1;
-    for (int i = 0; arr[i] != '\0'; ++i){
-        if (arg == arr[i]){
-            res = i;
-            break;
-        }
-    }
-    return res;
+    return (arr[arg]);
 }
-struct stack{
+typedef struct stack{
     char data[size];
     int stacksize;
-};
+} stack;
 
 struct stack bracketstack;
 
@@ -41,12 +34,14 @@ char peek(struct stack* astack){
 bool checkbrackets(char* astr){
     bool res = 1;
     for (int i = 0; astr[i] != '\0'; ++i){
-        if (InArray(openedbrackets,astr[i]) != -1) push(&bracketstack, astr[i]);
-        else if (InArray(closedbrackets,astr[i]) != -1){
+        if (InArray(openedbrackets,astr[i]) != 0)
+            push(&bracketstack, astr[i]);
+        else if (InArray(closedbrackets,astr[i]) != 0){
             if (InArray(closedbrackets,astr[i]) == InArray(openedbrackets,peek(&bracketstack))) pop(&bracketstack);
             else res = 0;
         }
     }
+    if (bracketstack.stacksize != 0) res = 0;
     return res;
 }
 
