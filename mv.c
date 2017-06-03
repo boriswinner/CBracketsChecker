@@ -1,16 +1,11 @@
 #include <stdio.h>
-#include <malloc.h>
-#include <io.h>
 #include <stdbool.h>
 #include <windows.h>
 #include <shlwapi.h>
-#include "Shlwapi.h"
-#include <WinDef.h>
-#include <unistd.h>
 
 #define SIZE 255
 
-//gcc -o test test.c -lshlwapi
+//gcc -o mv main.c -lshlwapi
 
 int moveFileFolderToFileFolder(int argc, char** argv, int s, int d, bool force, bool interactive){
     int res = 0;
@@ -53,6 +48,7 @@ int moveFileToFolder(int argc, char** argv, int s, int d, bool force, bool inter
         printf("Error: can't append path at file or directory #%d \n",s);
     } else if  (!resRename){
         printf("Error: can't move file or directory #%d to destination $%d \n",s,d);
+        printf("Probably the destination exists. In this case use -f or -i\n");
     } else{
         printf("Success! \n");
     }
@@ -84,16 +80,12 @@ int main(int argc, char **argv) {
         return -1;
     } else if (PathIsDirectory(argv[fileargs])){
         for (int i = 1; i < fileargs; ++i){
-            if (PathIsDirectory(argv[i])){
-                moveFileFolderToFileFolder(argc, argv, i, argc-1,force,interactive);
-            } else{
                 moveFileToFolder(argc, argv, i, argc-1,force,interactive);
-            }
         }
     } else if (fileargs == 2){
         moveFileFolderToFileFolder(argc,argv,1,2,force,interactive);
     } else{
-        printf("Error \n");
+        printf("Error: incorrect input \n");
     }
     return 0;
 }
