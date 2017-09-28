@@ -10,11 +10,11 @@ var fs = require('fs');
 var output = "cr.sql";
 var res = "CREATE DATABASE 'test.fdb' USER 'sysdba' PASSWORD 'masterkey';\n";
 res += "CREATE TABLE students (id INTEGER, name VARCHAR (100), birthday DATE, group_id INTEGER);\n";
-var mnames = ["Сергей","Эдуард","Адольф","Саша","Валентин","Степан","Бронислав","Ян"];
-var fnames = ["Дарья","Марья","Надежда","Рита","Станислава","Валентина","Светлана"];
-var msnames = ["Андреевич","Степанович"];
-var fsnames = ["Борисовна","Алексеевна"];
-var famnames = ["Приходько","Бутко","Тимофеенко","Зинькович","Дуб","Полено","Зудь","Дудь"];
+var mnames = ["Sergej","Ehduard","Adolf","Sasha","Valentin","Stepan","Bronislav","Yan"];
+var fnames = ["Darya","Marya","Nadezhda","Rita","Stanislava","Valentina","Svetlana"];
+var msnames = ["Andreevich","Stepanovich"];
+var fsnames = ["Borisovna","Alekseevna"];
+var famnames = ["Prihodko","Butko","Timofeenko","Zinkovich","Sosna","Poleno","Astral","Kakashka","Hitler","Lennon","Pot"];
 var maxgroup = 10;
 var maxstudies = 15;
 var maxstudents = 100;
@@ -22,7 +22,7 @@ var students_group_ids = [];
 
 for (var i = 0; i < maxstudents; ++i){
 	var gender = randomInteger(0,1);
-	var group_id = randomInteger(0,maxgroup);
+	var group_id = randomInteger(0,maxgroup-1);
 	students_group_ids.push(group_id);
 	
 	if (gender){
@@ -32,8 +32,8 @@ for (var i = 0; i < maxstudents; ++i){
 	}
 }
 
-var groupprefixes = ["Прикладная","Фундаментальная","Теоритическая","Информационная","Ядерная"];
-var groups = ["Информатика","Математика","Физика","Лингвистика","Механика","Химия"];
+var groupprefixes = ["Applied","Fundamental","Theoretical","Informational","Nuclear"];
+var groups = ["Informatics","Watercloset Cleaning","Physics","Mechanics","Chemistry", "Teology"];
 
 res += "CREATE TABLE groups (id INTEGER, name VARCHAR (100));\n";
 for (var i = 0; i < maxgroup; ++i){
@@ -41,7 +41,7 @@ for (var i = 0; i < maxgroup; ++i){
 }
 
 
-var studies = ["Архитектура компьютера","ПЭВМ","Матан","Алгебра","Основы Православной Культуры","Урок Толерантности","Физическая Подготовка для Умственно Отсталых","ОБЖ"];
+var studies = ["Anti-Racism Propaganda","Waterclosets cleaning","Russian TV watching","Algebra","The basics of the Orthodoxal culture","Tolerance lessons","PE for mentally disabled","Deep Holes Exploration"];
 var studies_group_ids = [];
 
 res += "CREATE TABLE studies (id INTEGER, name VARCHAR (100), groupid INTEGER);\n";
