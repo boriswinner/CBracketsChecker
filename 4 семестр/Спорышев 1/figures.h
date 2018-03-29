@@ -1,4 +1,6 @@
 #pragma once
+
+#include <utility>
 #include <vector>
 #include <cmath>
 
@@ -19,13 +21,13 @@ typedef struct FloatPoint {
 
 class Figure {
 public:
-    virtual double length() {};
+    virtual const double length() {};
 
-    virtual vector<fpnt> intersect_with_line(Line &that) {};
+    virtual const vector<fpnt> intersect_with_line(const Line &that) const {}
 
-    virtual vector<fpnt> intersect_with_circle(Circle &circle)  {};
+    virtual const vector<fpnt> intersect_with_circle(const Circle &that) const {}
 
-    virtual vector<fpnt> intersect_with_broken_line(BrokenLine &broken_line)  {};
+    virtual const vector<fpnt> intersect_with_broken_line(const BrokenLine &that) const {}
 };
 
 class Line : public Figure {
@@ -34,23 +36,23 @@ private:
 public:
     Line(fpnt p1, fpnt p2) : p1_(p1), p2_(p2) {}
 
-    double length() override {
+    const double length() override {
         return pow((p2_.x - p1_.x), 2) + pow((p2_.y - p1_.y), 2);
     }
 
-    fpnt getFirstPoint() {
+    const fpnt get_first_point() const {
         return p1_;
     }
 
-    fpnt getSecondPoint() {
+    const fpnt get_second_point() const {
         return p2_;
     }
 
-    vector<fpnt> intersect_with_line(Line &that) override;
+    const vector<fpnt> intersect_with_line(const Line &that) const override;
 
-    vector<fpnt> intersect_with_circle(Circle &circle) override;
+    const vector<fpnt> intersect_with_circle(const Circle &that) const override;
 
-    vector<fpnt> intersect_with_broken_line(BrokenLine &broken_line) override;
+    const vector<fpnt> intersect_with_broken_line(const BrokenLine &that) const override;
 
 };
 
@@ -61,23 +63,23 @@ private:
 public:
     Circle(fpnt p, double r) : p_(p), r_(r) {}
 
-    double length() override {
+    const double length() override {
         return 2 * M_PI * r_;
     }
 
-    fpnt getCentre() {
+    const fpnt get_centre() const {
         return p_;
     }
 
-    double getRadius() {
+    const double get_radius() const {
         return r_;
     }
 
-    vector<fpnt> intersect_with_line(Line &that) override;
+    const vector<fpnt> intersect_with_line(const Line &that) const override;
 
-    vector<fpnt> intersect_with_circle(Circle &circle) override;
+    const vector<fpnt> intersect_with_circle(const Circle &that) const override;
 
-    vector<fpnt> intersect_with_broken_line(BrokenLine &broken_line) override;
+    const vector<fpnt> intersect_with_broken_line(const BrokenLine &that) const override;
 
 };
 
@@ -85,9 +87,9 @@ class BrokenLine : public Figure {
 private:
     vector<fpnt> p_;
 public:
-    BrokenLine (vector<fpnt> p): p_(p) {};
+    explicit BrokenLine(vector<fpnt> p) : p_(std::move(p)) {};
 
-    double length() override {
+    const double length() override {
         double sum = 0;
         for (int i = 0; i < p_.size() - 1; ++i) {
             sum += pow((p_[i + 1].x - p_[i].x), 2) + pow((p_[i + 1].y - p_[i].y), 2);
@@ -95,17 +97,17 @@ public:
         return sum;
     }
 
-    int numPoints() {
+    const int num_points() const {
         return p_.size();
     }
 
-    Line getLine(int index) {
-        return Line(p_[index], p_[index + 1]);
+    const Line get_line(const int index) const {
+        return {p_[index], p_[index + 1]};
     }
 
-    vector<fpnt> intersect_with_line(Line &that) override;
+    const vector<fpnt> intersect_with_line(const Line &that) const override;
 
-    vector<fpnt> intersect_with_circle(Circle &circle) override;
+    const vector<fpnt> intersect_with_circle(const Circle &that) const override;
 
-    vector<fpnt> intersect_with_broken_line(BrokenLine &broken_line) override;
+    const vector<fpnt> intersect_with_broken_line(const BrokenLine &that) const override;
 };
